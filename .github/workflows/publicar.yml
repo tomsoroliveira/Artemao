@@ -1,0 +1,53 @@
+yaml
+name: Publicar site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Baixar os arquivos do repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar as bibliotecas do conversor
+        run: pip install numpy pillow
+
+      - name: Converter os escaneamentos em modelos 3D
+        run: python tools/converter.py
+
+      - name: Montar a pasta do site
+        run: |
+          mkdir _site
+          cp index.html dados.js _site/
+          cp -r modelos _site/modelos
+          if [ -d fotos ]; then cp -r fotos _site/fotos; fi
+
+      - name: Enviar o site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Publicar no GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
