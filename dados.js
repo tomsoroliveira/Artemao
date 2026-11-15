@@ -16,9 +16,6 @@ const SITE = {
     "O Artemão é um laboratório criativo em Sorocaba. Reúne ateliê de produção " +
     "artística, design gráfico e oficinas de arte abertas a todos os públicos, " +
     "em que cada participante cria a própria peça.",
-  // WhatsApp do ateliê com código do país e DDD, só números. Ex.: "5515999998888".
-  // Deixe "" para não mostrar o botão de WhatsApp.
-  whatsapp: "",
   // Endereço completo do Instagram do ateliê, começando com https://
   instagram: "https://www.instagram.com/artemao.laboratoriocriativo",
   // Botão "Baixar arquivo 3D" em cada peça. Troque para false para desligar.

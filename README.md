@@ -28,7 +28,7 @@ automação) e GitHub Pages (hospedagem).
 | `tools/montar_site.py` | Faz as verificações de segurança e monta a pasta publicada |
 | `tools/requirements.txt` | Bibliotecas usadas, com versões fixas |
 | `.github/workflows/publicar.yml` | Automação que converte, verifica e publica o site |
-| `.github/dependabot.yml`, `.github/SECURITY.md` | Verificação mensal de versões e contato para avisos de segurança |
+| `.github/dependabot.yml`, `SECURITY.md` | Verificação mensal de versões e contato para avisos de segurança |
 
 As pastas `modelos/` e `_site/` são geradas automaticamente e não ficam no repositório.
 

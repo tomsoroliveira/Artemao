@@ -68,12 +68,6 @@
   $("dlg-licenca").hidden = !licenca;
   var insta = linkSeguro(site.instagram, ["www.instagram.com", "instagram.com"]);
   if (insta) { $("insta").href = insta; $("insta").hidden = false; }
-  var fone = texto(site.whatsapp).replace(/\D/g, "");
-  if (fone.length >= 10 && fone.length <= 15) {
-    $("whats").href = "https://wa.me/" + fone + "?text=" +
-      encodeURIComponent("Olá! Vi o portfólio 3D das oficinas e gostaria de falar com o ateliê.");
-    $("whats").hidden = false;
-  }
 
   $("total").textContent = oficinas.length === 1
     ? "1 oficina · " + plural(pecas.length)
