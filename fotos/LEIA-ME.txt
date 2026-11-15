@@ -1,0 +1,2 @@
+Coloque aqui as fotos opcionais das pecas (JPG ou PNG) e cite o caminho no campo "fotos" de dados.js.
+Exemplo: fotos/carrinho-ana-1.jpg
