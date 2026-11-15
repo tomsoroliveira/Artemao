@@ -9,6 +9,7 @@ Requisitos:                pip install numpy pillow
 """
 import io
 import json
+import re
 import struct
 import sys
 from pathlib import Path
@@ -20,6 +21,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 ENTRADA = RAIZ / "escaneamentos"
 SAIDA = RAIZ / "modelos"
 TEXTURA_MAX = 2048   # lado máximo da textura, em pixels
+NOME_VALIDO = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")  # ids: letras minúsculas, números e hífen
 CAPA = 640           # lado da imagem de capa, em pixels
 
 
@@ -56,8 +58,9 @@ def achar_textura(pasta, obj):
     for mtl in pasta.glob("*.mtl"):
         for linha in mtl.read_text(encoding="utf-8", errors="ignore").splitlines():
             if linha.strip().lower().startswith("map_kd"):
-                nome = linha.split(None, 1)[1].strip()
-                if (pasta / nome).exists():
+                # usa só o nome do arquivo, para nunca ler fora da pasta da peça
+                nome = Path(linha.split(None, 1)[1].strip().replace("\\", "/")).name
+                if nome and (pasta / nome).is_file():
                     return pasta / nome
     for ext in ("*.jpg", "*.jpeg", "*.png"):
         achados = sorted(pasta.glob(ext))
@@ -88,7 +91,7 @@ def montar_malha(v, vt, vn, f):
 
 
 def preparar_textura(caminho):
-    img = Image.open(caminho).convert("RGB")
+    img = Image.open(caminho).convert("RGB")   # regravar a imagem descarta metadados (EXIF, GPS)
     if max(img.size) > TEXTURA_MAX:
         img.thumbnail((TEXTURA_MAX, TEXTURA_MAX), Image.LANCZOS)
     saida = io.BytesIO()
@@ -184,6 +187,8 @@ def gravar_capa(destino, pos, uv, indices, textura):
 
 
 def converter_pasta(pasta):
+    if not NOME_VALIDO.match(pasta.name):
+        raise ValueError("nome de pasta inválido: use só letras minúsculas, números e hífen")
     objs = sorted(pasta.glob("*.obj"))
     if not objs:
         print(f"  {pasta.name}: nenhum arquivo .obj encontrado, pasta ignorada")

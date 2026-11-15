@@ -2,164 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<!-- Política de segurança: o site só carrega arquivos do próprio endereço.
+     Nenhum script, fonte ou imagem vem de outros sites. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="claude:viewport-fit-sides" content="cover">
-<title>Galeria 3D Artemão</title>
-<meta name="description" content="As peças criadas pelas crianças nas oficinas do Artemão Laboratório Criativo, para girar e ver em 3D.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap">
-<style>
-  /* Layout: uma coluna central de até 1040px. Abertura com o título e uma régua
-     de marceneiro como divisor; depois galeria em grade, passos e contato. */
-  :root {
-    --bg: #F1F4EE;        /* bancada clara, levemente esverdeada */
-    --surface: #FFFFFF;
-    --tile: #E4E9E1;      /* fundo das capas das peças */
-    --ink: #1D2922;
-    --muted: #56655C;
-    --line: #D3DAD1;
-    --green: #2C5A43;     /* verde de avental de oficina */
-    --on-green: #FFFFFF;
-    --pencil: #F2B705;    /* amarelo do lápis de marceneiro */
-    --on-pencil: #1D2922;
-    --wood: #A9713C;
-    --display: "Bricolage Grotesque", "Trebuchet MS", "Segoe UI", sans-serif;
-    --body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #131A16; --surface: #1C2520; --tile: #26312B; --ink: #E8EEE8; --muted: #A2B1A8;
-      --line: #2F3B35; --green: #86C9A2; --on-green: #10201A; --pencil: #F2B705;
-      --on-pencil: #1D2922; --wood: #D29A62; color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #131A16; --surface: #1C2520; --tile: #26312B; --ink: #E8EEE8; --muted: #A2B1A8;
-    --line: #2F3B35; --green: #86C9A2; --on-green: #10201A; --pencil: #F2B705;
-    --on-pencil: #1D2922; --wood: #D29A62; color-scheme: dark;
-  }
-
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--body);
-    font-size: 17px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap {
-    max-width: 1040px;
-    margin: 0 auto;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-  }
-  a { color: var(--green); }
-  :focus-visible { outline: 3px solid var(--pencil); outline-offset: 2px; border-radius: 4px; }
-  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
-
-  /* Cabeçalho */
-  .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 18px; }
-  .brand { font-family: var(--display); font-weight: 700; font-size: 18px; }
-  .top nav { display: flex; flex-wrap: wrap; gap: 4px 18px; }
-  .top nav a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 15px; padding-block: 6px; }
-  .top nav a:hover { color: var(--ink); }
-
-  /* Abertura */
-  .hero { padding-block: 28px 0; }
-  .hero h1 { font-weight: 700; font-size: clamp(34px, 7vw, 60px); line-height: 1.04; letter-spacing: -0.02em; max-width: 14ch; }
-  .hero h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--pencil) 62%); }
-  .hero p { color: var(--muted); font-size: 19px; max-width: 52ch; margin: 18px 0 0; }
-  /* Régua de marceneiro: marcas a cada 8px, maiores a cada 40px e 80px */
-  .ruler {
-    margin-top: 34px; height: 22px; border-top: 2px solid var(--ink);
-    background:
-      repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 80px) top left / 100% 22px no-repeat,
-      repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 40px) top left / 100% 14px no-repeat,
-      repeating-linear-gradient(90deg, var(--muted) 0 1px, transparent 1px 8px) top left / 100% 7px no-repeat;
-  }
-
-  section { padding-block: 44px; }
-  .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; margin-bottom: 22px; }
-  .sec-head h2 { font-weight: 700; font-size: clamp(24px, 4vw, 32px); letter-spacing: -0.01em; }
-  .sec-head span { color: var(--muted); font-size: 15px; }
-
-  /* Galeria */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; list-style: none; margin: 0; padding: 0; }
-  .card {
-    display: flex; flex-direction: column; width: 100%; height: 100%; padding: 0; text-align: left;
-    font: inherit; color: inherit; cursor: pointer;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
-    transition: transform .15s ease, border-color .15s ease;
-  }
-  .card:hover { transform: translateY(-2px); border-color: var(--green); }
-  .cover { position: relative; aspect-ratio: 4 / 3; max-width: 100%; background: var(--tile); display: grid; place-items: center; }
-  .cover img { width: 100%; height: 100%; object-fit: contain; }
-  .cover .no-cover { color: var(--muted); font-size: 14px; }
-  .tag {
-    position: absolute; top: 10px; left: 10px; background: var(--surface); color: var(--ink);
-    font-size: 12.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line);
-    font-variant-numeric: tabular-nums;
-  }
-  .tag.test { left: auto; right: 10px; background: var(--pencil); color: var(--on-pencil); border-color: transparent; }
-  .card-body { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px 16px; min-width: 0; }
-  .card-body h3 { font-weight: 700; font-size: 20px; overflow-wrap: anywhere; }
-  .card-body .by { color: var(--muted); font-size: 15px; }
-  .card-body .see { margin-top: 10px; color: var(--green); font-weight: 600; font-size: 15px; }
-  .empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; padding: 28px 20px; color: var(--muted); }
-
-  /* Como funciona */
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px 28px; list-style: none; margin: 0; padding: 0; counter-reset: passo; }
-  .steps li { counter-increment: passo; border-top: 2px solid var(--ink); padding-top: 14px; min-width: 0; }
-  .steps li::before { content: counter(passo); font-family: var(--display); font-weight: 700; font-size: 30px; color: var(--wood); display: block; line-height: 1; margin-bottom: 8px; }
-  .steps h3 { font-weight: 700; font-size: 19px; margin-bottom: 4px; }
-  .steps p { margin: 0; color: var(--muted); font-size: 16px; }
-  .privacy { margin: 26px 0 0; color: var(--muted); font-size: 15px; max-width: 65ch; }
-
-  /* Sobre e contato */
-  .about { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px 48px; align-items: start; }
-  .about p { margin: 0; max-width: 60ch; }
-  .contact { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
-    font-weight: 600; font-size: 16px; padding: 12px 20px; border-radius: 999px;
-    background: var(--green); color: var(--on-green); border: 1px solid transparent;
-  }
-  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
-  .contact small { color: var(--muted); font-size: 14px; }
-
-  footer { border-top: 1px solid var(--line); padding-block: 22px 34px; color: var(--muted); font-size: 14px; }
-  footer p { margin: 0; max-width: 75ch; }
-
-  /* Janela da peça em 3D */
-  dialog {
-    width: min(920px, calc(100% - 24px)); max-height: calc(100% - 24px); padding: 0;
-    border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink);
-    overflow: auto;
-  }
-  dialog::backdrop { background: rgba(10, 16, 13, .62); }
-  .dlg-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px 12px; }
-  .dlg-head h2 { font-weight: 700; font-size: 24px; overflow-wrap: anywhere; }
-  .dlg-head p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
-  .close { flex: none; font: inherit; font-weight: 600; font-size: 15px; cursor: pointer; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; }
-  .stage { position: relative; background: var(--tile); }
-  model-viewer { display: block; width: 100%; height: min(60vh, 520px); background: var(--tile); --progress-bar-color: var(--pencil); }
-  .stage-msg { position: absolute; inset: auto 0 12px; text-align: center; font-size: 14px; color: var(--muted); pointer-events: none; padding-inline: 12px; }
-  .dlg-body { padding: 14px 18px 20px; display: flex; flex-direction: column; gap: 14px; }
-  .dlg-body p { margin: 0; max-width: 65ch; }
-  .photos { display: flex; gap: 10px; overflow-x: auto; }
-  .photos img { height: 120px; width: auto; border-radius: 10px; border: 1px solid var(--line); flex: none; }
-  .photos-label { font-size: 14px; color: var(--muted); }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .card { transition: none; }
-    .card:hover { transform: none; }
-  }
-</style>
+<title>Portfólio 3D Artemão</title>
+<meta name="description" content="Portfólio das oficinas do Artemão Laboratório Criativo, com as peças em 3D para girar e ver de todos os lados.">
+<link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 
@@ -174,37 +24,42 @@
 
 <main>
   <div class="wrap hero">
-    <h1>As peças das oficinas, para <em>girar em 3D</em></h1>
-    <p>Cada peça de madeira criada pelas crianças nas oficinas é escaneada e fica guardada aqui. Toque em uma peça para girar, aproximar e ver de todos os lados.</p>
+    <h1>Portfólio das oficinas, com <em>imagens em 3D</em></h1>
+    <p>Cada peça criada nas oficinas do ateliê é escaneada e fica guardada aqui. Escolha uma oficina e toque em uma peça para girar, aproximar e ver de todos os lados.</p>
     <div class="ruler" aria-hidden="true"></div>
   </div>
 
   <section class="wrap" id="galeria">
     <div class="sec-head">
       <h2>Galeria</h2>
-      <span id="count"></span>
+      <span id="total"></span>
+    </div>
+    <p class="pick-label" id="pick-label">Escolha a oficina</p>
+    <div class="workshops" id="workshops" role="group" aria-labelledby="pick-label"></div>
+    <div class="sec-sub">
+      <h3 id="workshop-title"></h3>
+      <span id="workshop-count"></span>
     </div>
     <ul class="grid" id="grid"></ul>
-    <p class="empty" id="empty" hidden>Ainda não há peças publicadas. As peças aparecem aqui depois de cada oficina.</p>
+    <p class="empty" id="empty" hidden>Esta oficina ainda não tem peças publicadas.</p>
   </section>
 
   <section class="wrap" id="como-funciona">
     <div class="sec-head"><h2>Como funciona</h2></div>
     <ol class="steps">
       <li>
-        <h3>A criança cria a peça</h3>
-        <p>Na oficina, cada criança monta e decora a própria peça de madeira.</p>
+        <h3>A peça é criada na oficina</h3>
+        <p>Cada participante monta e decora a própria peça.</p>
       </li>
       <li>
         <h3>O ateliê escaneia</h3>
         <p>A peça é fotografada de vários ângulos com o celular, e as fotos viram um modelo 3D com as cores reais.</p>
       </li>
       <li>
-        <h3>A família vê em 3D</h3>
-        <p>Pelo QR code da oficina ou pelo link, a peça abre no celular, sem instalar nada.</p>
+        <h3>A peça fica na galeria</h3>
+        <p>Pelo QR code da oficina ou pelo link, qualquer pessoa abre a peça no celular, sem instalar nada.</p>
       </li>
     </ol>
-    <p class="privacy">Privacidade: a galeria mostra apenas a peça e o primeiro nome da criança, sempre com autorização do responsável. Nenhuma foto de rosto é publicada.</p>
   </section>
 
   <section class="wrap" id="contato">
@@ -212,16 +67,16 @@
     <div class="about">
       <p id="about"></p>
       <div class="contact">
-        <a class="btn" id="whats" target="_blank" rel="noopener" hidden>Falar com o ateliê no WhatsApp</a>
-        <a class="btn ghost" id="insta" target="_blank" rel="noopener">Ver o Instagram do ateliê</a>
-        <small>Quer a peça do seu filho na galeria, ou prefere retirar uma peça? Fale com o ateliê.</small>
+        <a class="btn" id="whats" target="_blank" rel="noopener noreferrer" hidden>Falar com o ateliê no WhatsApp</a>
+        <a class="btn ghost" id="insta" target="_blank" rel="noopener noreferrer" hidden>Ver o Instagram do ateliê</a>
+        <small>Quer participar de uma oficina ou levar uma oficina para o seu espaço? Fale com o ateliê.</small>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="wrap">
-  <p>Projeto de extensão universitária do curso CST em DevOps, desenvolvido por Wellington Eduardo de Oliveira em parceria com o Artemão Laboratório Criativo. Modelos 3D gerados por fotogrametria.</p>
+  <p>Projeto de extensão universitária do curso CST em DevOps, em parceria com o Artemão Laboratório Criativo. Modelos 3D gerados por fotogrametria. Este site não usa cookies e não coleta dados de quem visita.</p>
 </footer>
 
 <dialog id="viewer" aria-labelledby="dlg-title">
@@ -247,132 +102,7 @@
 </dialog>
 
 <script src="dados.js"></script>
-<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
-<script>
-(function () {
-  var site = typeof SITE !== "undefined" ? SITE : {};
-  var pecas = typeof PECAS !== "undefined" ? PECAS : [];
-  var $ = function (id) { return document.getElementById(id); };
-
-  // Textos do ateliê
-  if (site.nome) $("brand").textContent = site.nome;
-  $("about").textContent = site.sobre || "";
-  $("city").textContent = site.cidade || "";
-  if (site.instagram) $("insta").href = site.instagram; else $("insta").hidden = true;
-  if (site.whatsapp) {
-    $("whats").href = "https://wa.me/" + String(site.whatsapp).replace(/\D/g, "") +
-      "?text=" + encodeURIComponent("Olá! Vi a galeria 3D das oficinas e gostaria de falar com o ateliê.");
-    $("whats").hidden = false;
-  }
-
-  function assinatura(p) {
-    var partes = [];
-    if (p.autor) partes.push("Feita por " + p.autor + (p.idade ? ", " + p.idade : ""));
-    if (p.oficina) partes.push(p.oficina);
-    if (p.data) partes.push(p.data);
-    return partes.join(" · ");
-  }
-
-  // Galeria
-  var grid = $("grid");
-  pecas.forEach(function (p, i) {
-    var li = document.createElement("li");
-    var card = document.createElement("button");
-    card.type = "button";
-    card.className = "card";
-    card.id = "card-" + p.id;
-
-    var cover = document.createElement("div");
-    cover.className = "cover";
-    var img = document.createElement("img");
-    img.src = "modelos/" + p.id + ".webp";
-    img.alt = "Vista da peça " + p.nome;
-    img.loading = "lazy";
-    img.onerror = function () {
-      img.remove();
-      var s = document.createElement("span");
-      s.className = "no-cover";
-      s.textContent = "Peça em processamento";
-      cover.appendChild(s);
-    };
-    cover.appendChild(img);
-    var tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = "Peça nº " + String(pecas.length - i).padStart(2, "0");
-    cover.appendChild(tag);
-    if (p.teste) {
-      var t = document.createElement("span");
-      t.className = "tag test";
-      t.textContent = "Exemplo de teste";
-      cover.appendChild(t);
-    }
-
-    var body = document.createElement("div");
-    body.className = "card-body";
-    var h = document.createElement("h3");
-    h.textContent = p.nome;
-    var by = document.createElement("span");
-    by.className = "by";
-    by.textContent = assinatura(p);
-    var see = document.createElement("span");
-    see.className = "see";
-    see.textContent = "Ver em 3D";
-    body.append(h, by, see);
-
-    card.append(cover, body);
-    card.addEventListener("click", function () { location.hash = "peca-" + p.id; });
-    li.appendChild(card);
-    grid.appendChild(li);
-  });
-  $("count").textContent = pecas.length === 1 ? "1 peça" : pecas.length + " peças";
-  $("empty").hidden = pecas.length > 0;
-
-  // Janela 3D. Cada peça tem endereço próprio (#peca-<id>), que pode virar QR code.
-  var dlg = $("viewer"), mv = $("mv"), msg = $("stage-msg");
-  mv.addEventListener("load", function () { msg.textContent = "Arraste para girar. Use dois dedos ou a roda do mouse para aproximar."; });
-  mv.addEventListener("error", function () { msg.textContent = "Não foi possível carregar esta peça. Tente novamente mais tarde."; });
-
-  function abrir(p) {
-    $("dlg-title").textContent = p.nome;
-    $("dlg-meta").textContent = assinatura(p);
-    $("dlg-desc").textContent = p.descricao || "";
-    $("dlg-desc").hidden = !p.descricao;
-    var fotos = p.fotos || [];
-    var box = $("dlg-photos");
-    box.textContent = "";
-    fotos.forEach(function (src, n) {
-      var im = document.createElement("img");
-      im.src = src;
-      im.alt = "Foto " + (n + 1) + " da peça " + p.nome;
-      im.loading = "lazy";
-      box.appendChild(im);
-    });
-    $("dlg-photos-wrap").hidden = fotos.length === 0;
-    msg.textContent = "Carregando a peça…";
-    mv.alt = "Modelo 3D da peça " + p.nome;
-    mv.src = "modelos/" + p.id + ".glb";
-    if (!dlg.open) dlg.showModal();
-  }
-
-  function rota() {
-    var m = /^#peca-([a-z0-9-]+)$/.exec(location.hash);
-    var p = m && pecas.find(function (x) { return x.id === m[1]; });
-    if (p) abrir(p);
-    else if (dlg.open) dlg.close();
-  }
-
-  dlg.addEventListener("close", function () {
-    mv.removeAttribute("src");
-    if (/^#peca-/.test(location.hash)) {
-      try { history.replaceState(null, "", location.pathname + location.search); }
-      catch (e) { location.hash = "galeria"; }
-    }
-  });
-  $("dlg-close").addEventListener("click", function () { dlg.close(); });
-  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
-  window.addEventListener("hashchange", rota);
-  rota();
-})();
-</script>
+<script type="module" src="vendor/model-viewer.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
