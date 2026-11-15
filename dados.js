@@ -21,41 +21,63 @@ const SITE = {
   whatsapp: "",
   // Endereço completo do Instagram do ateliê, começando com https://
   instagram: "https://www.instagram.com/artemao.laboratoriocriativo",
+  // Botão "Baixar arquivo 3D" em cada peça. Troque para false para desligar.
+  permitirDownload: true,
+  // Licença das peças, mostrada junto ao botão de download e gravada no arquivo baixado
+  // (para mudar o texto no arquivo, altere também LICENCA em tools/converter.py).
+  licenca:
+    "Artemão Laboratório Criativo. Uso pessoal e não comercial, citando o ateliê. " +
+    "Para outros usos, fale com o ateliê.",
 };
 
 // ---------------------------------------------------------------------
-//  OFICINAS
+//  OFICINAS (galerias)
 //  A galeria é agrupada por oficina. A primeira da lista aparece
 //  selecionada, então coloque sempre a mais recente no início.
 //  O "id" usa só letras minúsculas, números e hífen.
+//  O campo "data" é opcional. Exemplo de uma oficina de verdade:
+//  { id: "sesc-15-11-2026", nome: "Sesc Sorocaba", data: "15/11/2026" },
 // ---------------------------------------------------------------------
 const OFICINAS = [
-  {
-    id: "teste-15-11-2026",
-    nome: "Teste do projeto",
-    data: "15/11/2026",
-  },
-  // Exemplo de uma oficina de verdade:
-  // { id: "sesc-15-11-2026", nome: "Sesc Sorocaba", data: "15/11/2026" },
+  { id: "galeria-1", nome: "Galeria 1" },
+  { id: "galeria-2", nome: "Galeria 2" },
+  { id: "galeria-3", nome: "Galeria 3" },
 ];
 
 // ---------------------------------------------------------------------
 //  PEÇAS
 //  Para adicionar uma peça:
-//    1. Crie a pasta  escaneamentos/<id>  com os 3 arquivos do KIRI Engine
-//       (.obj, .mtl e .jpg).
+//    1. Crie a pasta  escaneamentos/<modelo>  com os 3 arquivos do KIRI
+//       Engine (.obj, .mtl e .jpg).
 //    2. Copie um bloco abaixo, cole na lista e troque os textos.
-//       "id" deve ser igual ao nome da pasta (letras minúsculas, números
-//       e hífen). "oficina" deve ser o id de uma oficina da lista acima.
+//       "id": nome único da peça (letras minúsculas, números e hífen).
+//       "oficina": id de uma oficina da lista acima.
+//       "modelo": nome da pasta em escaneamentos. Se for omitido, vale o "id".
+//       Várias peças podem usar o mesmo modelo, como abaixo.
 // ---------------------------------------------------------------------
 const PECAS = [
   {
-    id: "foguete-teste",
-    oficina: "teste-15-11-2026",
+    id: "foguete-1",
+    modelo: "foguete",
+    oficina: "galeria-1",
     nome: "Foguete",
-    descricao:
-      "Primeiro escaneamento, feito para testar o projeto. Será substituído pelas peças das oficinas.",
+    descricao: "Foguete de brinquedo escaneado em 3D.",
     fotos: [],      // opcional. Ex.: ["fotos/foguete-1.jpg"]
-    teste: true,    // apague esta linha nas peças de verdade
+  },
+  {
+    id: "foguete-2",
+    modelo: "foguete",
+    oficina: "galeria-2",
+    nome: "Foguete",
+    descricao: "Foguete de brinquedo escaneado em 3D.",
+    fotos: [],
+  },
+  {
+    id: "foguete-3",
+    modelo: "foguete",
+    oficina: "galeria-3",
+    nome: "Foguete",
+    descricao: "Foguete de brinquedo escaneado em 3D.",
+    fotos: [],
   },
 ];

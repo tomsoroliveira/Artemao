@@ -18,6 +18,33 @@
 
   var $ = function (id) { return document.getElementById(id); };
   var texto = function (v) { return v == null ? "" : String(v); };
+  var baixar = site.permitirDownload !== false;
+  // Várias peças podem usar o mesmo modelo 3D (campo "modelo"); sem ele, vale o id da peça.
+  var modeloDe = function (p) { return ID_VALIDO.test(texto(p.modelo)) ? p.modelo : p.id; };
+  var urlGlb = function (p) { return "modelos/" + modeloDe(p) + ".glb"; };
+  var nomeArquivo = function (p) {
+    var n = texto(p.nome).normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return (n || modeloDe(p)) + ".glb";
+  };
+  function linkBaixar(a, p) {
+    a.href = urlGlb(p);
+    a.setAttribute("download", nomeArquivo(p));
+  }
+  // Se a página estiver dentro de uma moldura de outro site, não mostra o conteúdo
+  // (evita que o site seja usado para enganar cliques). Só o link para abrir direto.
+  if (window.top !== window.self) {
+    var aviso = document.createElement("p");
+    aviso.className = "wrap";
+    var lk = document.createElement("a");
+    lk.href = location.href; lk.target = "_blank"; lk.rel = "noopener noreferrer";
+    lk.textContent = "Abrir o portfólio 3D";
+    aviso.appendChild(lk);
+    document.body.textContent = "";
+    document.body.appendChild(aviso);
+    return;
+  }
+
   var plural = function (n) { return n === 1 ? "1 peça" : n + " peças"; };
   var pecasDa = function (oficinaId) { return pecas.filter(function (p) { return p.oficina === oficinaId; }); };
 
@@ -34,6 +61,11 @@
   if (site.nome) $("brand").textContent = texto(site.nome);
   $("about").textContent = texto(site.sobre);
   $("city").textContent = texto(site.cidade);
+  var licenca = texto(site.licenca);
+  $("licenca").textContent = licenca;
+  $("licenca").hidden = !licenca;
+  $("dlg-licenca").textContent = licenca;
+  $("dlg-licenca").hidden = !licenca;
   var insta = linkSeguro(site.instagram, ["www.instagram.com", "instagram.com"]);
   if (insta) { $("insta").href = insta; $("insta").hidden = false; }
   var fone = texto(site.whatsapp).replace(/\D/g, "");
@@ -89,7 +121,7 @@
       var cover = document.createElement("div");
       cover.className = "cover";
       var img = document.createElement("img");
-      img.src = "modelos/" + p.id + ".webp";
+      img.src = "modelos/" + modeloDe(p) + ".webp";
       img.alt = "Vista da peça " + texto(p.nome);
       img.loading = "lazy";
       img.addEventListener("error", function () {
@@ -104,12 +136,6 @@
       tag.className = "tag";
       tag.textContent = "Peça nº " + String(i + 1).padStart(2, "0");
       cover.appendChild(tag);
-      if (p.teste) {
-        var t = document.createElement("span");
-        t.className = "tag test";
-        t.textContent = "Exemplo de teste";
-        cover.appendChild(t);
-      }
 
       var body = document.createElement("div");
       body.className = "card-body";
@@ -122,7 +148,15 @@
 
       card.append(cover, body);
       card.addEventListener("click", function () { location.hash = "peca-" + p.id; });
+      li.className = "item";
       li.appendChild(card);
+      if (baixar) {
+        var dl = document.createElement("a");
+        dl.className = "dl";
+        dl.textContent = "Baixar arquivo 3D";
+        linkBaixar(dl, p);
+        li.appendChild(dl);
+      }
       grid.appendChild(li);
     });
     $("empty").hidden = lista.length > 0;
@@ -158,7 +192,9 @@
     $("dlg-photos-wrap").hidden = fotos.length === 0;
     msg.textContent = "Carregando a peça…";
     mv.setAttribute("alt", "Modelo 3D da peça " + texto(p.nome));
-    mv.setAttribute("src", "modelos/" + p.id + ".glb");
+    mv.setAttribute("src", urlGlb(p));
+    $("dlg-actions").hidden = !baixar;
+    if (baixar) linkBaixar($("dlg-download"), p);
     if (!dlg.open) dlg.showModal();
   }
 
@@ -167,6 +203,7 @@
     var p = m && m[1] === "peca" && pecas.find(function (x) { return x.id === m[2]; });
     if (p) { abrirPeca(p); return; }
     if (dlg.open) dlg.close();
+    if (location.hash === "#inicio") { mostrarOficina(oficinas[0]); return; }
     var o = m && m[1] === "oficina" && oficinas.find(function (x) { return x.id === m[2]; });
     mostrarOficina(o || atual || oficinas[0]);
   }

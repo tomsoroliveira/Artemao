@@ -54,7 +54,7 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 
 /* Cabeçalho */
 .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding-block: 18px; }
-.brand { font-family: var(--display); font-weight: 700; font-size: 18px; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; }
 .top nav { display: flex; flex-wrap: wrap; gap: 4px 18px; }
 .top nav a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 15px; padding-block: 6px; }
 .top nav a:hover { color: var(--ink); }
@@ -62,7 +62,7 @@ h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
 /* Abertura */
 .hero { padding-block: 28px 0; }
 .hero h1 { font-weight: 700; font-size: clamp(32px, 6.4vw, 56px); line-height: 1.08; letter-spacing: -0.02em; max-width: 17ch; }
-.hero h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--pencil) 62%); }
+.hero h1 em { font-style: normal; color: var(--green); }
 .hero p { color: var(--muted); font-size: 19px; max-width: 54ch; margin: 18px 0 0; }
 /* Régua de marceneiro: marcas a cada 8px, maiores a cada 40px e 80px */
 .ruler {
@@ -97,13 +97,21 @@ section { padding-block: 44px; }
 
 /* Galeria */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; list-style: none; margin: 0; padding: 0; }
-.card {
-  display: flex; flex-direction: column; width: 100%; height: 100%; padding: 0; text-align: left;
-  font: inherit; color: inherit; cursor: pointer;
+.item {
+  display: flex; flex-direction: column; height: 100%;
   background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
   transition: transform .15s ease, border-color .15s ease;
 }
-.card:hover { transform: translateY(-2px); border-color: var(--green); }
+.item:hover { transform: translateY(-2px); border-color: var(--green); }
+.card {
+  display: flex; flex-direction: column; flex: 1; width: 100%; padding: 0; text-align: left;
+  font: inherit; color: inherit; cursor: pointer; background: transparent; border: 0;
+}
+.dl {
+  display: block; text-align: center; text-decoration: none; font-weight: 600; font-size: 15px;
+  color: var(--green); padding: 11px 16px; border-top: 1px solid var(--line);
+}
+.dl:hover { background: var(--tile); }
 .cover { position: relative; aspect-ratio: 4 / 3; max-width: 100%; background: var(--tile); display: grid; place-items: center; }
 .cover img { width: 100%; height: 100%; object-fit: contain; }
 .cover .no-cover { color: var(--muted); font-size: 14px; }
@@ -112,7 +120,6 @@ section { padding-block: 44px; }
   font-size: 12.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
 }
-.tag.test { left: auto; right: 10px; background: var(--pencil); color: var(--on-pencil); border-color: transparent; }
 .card-body { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px 16px; min-width: 0; }
 .card-body h4 { font-family: var(--display); font-weight: 700; font-size: 20px; margin: 0; overflow-wrap: anywhere; }
 .card-body .see { margin-top: 8px; color: var(--green); font-weight: 600; font-size: 15px; }
@@ -139,6 +146,7 @@ section { padding-block: 44px; }
 
 footer { border-top: 1px solid var(--line); padding-block: 22px 34px; color: var(--muted); font-size: 14px; }
 footer p { margin: 0; max-width: 75ch; }
+footer p + p { margin-top: 8px; }
 
 /* Janela da peça em 3D */
 dialog {
@@ -156,12 +164,15 @@ model-viewer { display: block; width: 100%; height: min(60vh, 520px); background
 .stage-msg { position: absolute; inset: auto 0 12px; text-align: center; font-size: 14px; color: var(--muted); pointer-events: none; padding-inline: 12px; }
 .dlg-body { padding: 14px 18px 20px; display: flex; flex-direction: column; gap: 14px; }
 .dlg-body p { margin: 0; max-width: 65ch; }
+.dlg-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.dlg-actions small { color: var(--muted); font-size: 14px; flex: 1 1 240px; }
+.dlg-actions #dlg-licenca { flex-basis: 100%; }
 .photos { display: flex; gap: 10px; overflow-x: auto; }
 .photos img { height: 120px; width: auto; border-radius: 10px; border: 1px solid var(--line); flex: none; }
 .photos-label { font-size: 14px; color: var(--muted); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .card { transition: none; }
-  .card:hover { transform: none; }
+  .item { transition: none; }
+  .item:hover { transform: none; }
 }

@@ -103,6 +103,10 @@ def alinhar(dados, enchimento=b"\0"):
     return dados + enchimento * ((4 - len(dados) % 4) % 4)
 
 
+# Texto gravado dentro de cada arquivo GLB. Mantenha igual ao campo "licenca" de dados.js.
+LICENCA = "Artemão Laboratório Criativo. Uso pessoal e não comercial, citando o ateliê."
+
+
 def gravar_glb(destino, pos, nrm, uv, indices, jpeg):
     partes = [pos.tobytes(), nrm.tobytes(), indices.tobytes()]
     alvos = [34962, 34962, 34963]
@@ -115,7 +119,7 @@ def gravar_glb(destino, pos, nrm, uv, indices, jpeg):
     ]
     material = {"name": "peca", "doubleSided": True,
                 "pbrMetallicRoughness": {"metallicFactor": 0, "roughnessFactor": 1}}
-    gltf = {"asset": {"version": "2.0", "generator": "tools/converter.py"},
+    gltf = {"asset": {"version": "2.0", "generator": "tools/converter.py", "copyright": LICENCA},
             "scene": 0, "scenes": [{"nodes": [0]}], "nodes": [{"mesh": 0, "name": "peca"}]}
     if uv is not None and jpeg:
         partes += [uv.astype(np.float32).tobytes(), jpeg]

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <!-- Política de segurança: o site só carrega arquivos do próprio endereço.
      Nenhum script, fonte ou imagem vem de outros sites. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Portfólio 3D Artemão</title>
@@ -13,9 +13,10 @@
 </head>
 <body>
 
-<header class="wrap top">
-  <div class="brand" id="brand">Artemão Laboratório Criativo</div>
+<header class="wrap top" id="inicio">
+  <a class="brand" id="brand" href="#inicio">Artemão Laboratório Criativo</a>
   <nav aria-label="Seções">
+    <a href="#inicio">Início</a>
     <a href="#galeria">Galeria</a>
     <a href="#como-funciona">Como funciona</a>
     <a href="#contato">Contato</a>
@@ -76,7 +77,8 @@
 </main>
 
 <footer class="wrap">
-  <p>Projeto de extensão universitária do curso CST em DevOps, em parceria com o Artemão Laboratório Criativo. Modelos 3D gerados por fotogrametria. Este site não usa cookies e não coleta dados de quem visita.</p>
+  <p>Projeto de extensão universitária do curso CST em DevOps, em parceria com o Artemão Laboratório Criativo. Modelos 3D gerados por fotogrametria. Este site não usa cookies nem ferramentas de rastreamento.</p>
+  <p id="licenca"></p>
 </footer>
 
 <dialog id="viewer" aria-labelledby="dlg-title">
@@ -94,6 +96,11 @@
   </div>
   <div class="dlg-body">
     <p id="dlg-desc"></p>
+    <div class="dlg-actions" id="dlg-actions" hidden>
+      <a class="btn" id="dlg-download" href="#">Baixar arquivo 3D (.glb)</a>
+      <small>Abre em programas de modelagem 3D, como o Blender, e em visualizadores 3D.</small>
+      <small id="dlg-licenca"></small>
+    </div>
     <div id="dlg-photos-wrap" hidden>
       <div class="photos-label">Fotos da peça</div>
       <div class="photos" id="dlg-photos"></div>
