@@ -29,6 +29,8 @@ MV_SHA256 = ""
 
 FOTO_VALIDA = re.compile(r"^[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)$", re.IGNORECASE)
 EXTENSOES_IMAGEM = {".jpg", ".jpeg", ".png", ".webp"}
+# Só estes formatos são abertos pela biblioteca de imagens (reduz a superfície de ataque).
+FORMATOS_IMAGEM = ["JPEG", "PNG", "WEBP"]
 GPS_IFD = 0x8825
 # Padrões que não devem aparecer em dados.js: e-mail, CPF e chaves de acesso.
 PADROES_SENSIVEIS = {
@@ -40,7 +42,7 @@ PADROES_SENSIVEIS = {
 
 def tem_gps(caminho):
     try:
-        with Image.open(caminho) as img:
+        with Image.open(caminho, formats=FORMATOS_IMAGEM) as img:
             return bool(img.getexif().get_ifd(GPS_IFD))
     except Exception:
         return False
@@ -103,7 +105,7 @@ def copiar_fotos():
         if not (arq.is_file() and FOTO_VALIDA.match(arq.name)):
             continue
         (SITE / "fotos").mkdir(exist_ok=True)
-        with Image.open(arq) as img:      # regravar a imagem descarta todos os metadados
+        with Image.open(arq, formats=FORMATOS_IMAGEM) as img:      # regravar a imagem descarta todos os metadados
             limpa = img.convert("RGBA" if img.mode in ("RGBA", "LA", "P") else "RGB")
             limpa.thumbnail((1600, 1600), Image.LANCZOS)
             if arq.suffix.lower() in (".jpg", ".jpeg"):

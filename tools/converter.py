@@ -17,6 +17,10 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
+# Só estes formatos de imagem são abertos. Outros (TIFF, PDF, GIF, etc.) são recusados,
+# o que reduz a superfície de ataque da biblioteca de imagens.
+FORMATOS_IMAGEM = ["JPEG", "PNG", "WEBP"]
+
 RAIZ = Path(__file__).resolve().parent.parent
 ENTRADA = RAIZ / "escaneamentos"
 SAIDA = RAIZ / "modelos"
@@ -91,7 +95,7 @@ def montar_malha(v, vt, vn, f):
 
 
 def preparar_textura(caminho):
-    img = Image.open(caminho).convert("RGB")   # regravar a imagem descarta metadados (EXIF, GPS)
+    img = Image.open(caminho, formats=FORMATOS_IMAGEM).convert("RGB")   # regravar a imagem descarta metadados (EXIF, GPS)
     if max(img.size) > TEXTURA_MAX:
         img.thumbnail((TEXTURA_MAX, TEXTURA_MAX), Image.LANCZOS)
     saida = io.BytesIO()
@@ -187,7 +191,7 @@ def gravar_capa(destino, pos, uv, indices, textura):
     img = np.zeros((CAPA, CAPA, 4), np.uint8)
     img[py[ok][ordem], px[ok][ordem], :3] = cor[ok][ordem]
     img[py[ok][ordem], px[ok][ordem], 3] = 255
-    Image.fromarray(img, "RGBA").save(destino, "WEBP", quality=82)
+    Image.fromarray(img).save(destino, "WEBP", quality=82)
 
 
 def converter_pasta(pasta):
