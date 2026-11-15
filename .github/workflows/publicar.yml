@@ -17,30 +17,29 @@ concurrency:
 jobs:
   publicar:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Baixar os arquivos do repositório
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Preparar o Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
 
-      - name: Instalar as bibliotecas do conversor
-        run: pip install numpy pillow
+      - name: Instalar as bibliotecas (versões fixas)
+        run: pip install -r tools/requirements.txt
 
       - name: Converter os escaneamentos em modelos 3D
         run: python tools/converter.py
 
-      - name: Montar a pasta do site
-        run: |
-          mkdir _site
-          cp index.html dados.js _site/
-          cp -r modelos _site/modelos
-          if [ -d fotos ]; then cp -r fotos _site/fotos; fi
+      - name: Verificar a segurança e montar o site
+        run: python tools/montar_site.py
 
       - name: Enviar o site
         uses: actions/upload-pages-artifact@v3
