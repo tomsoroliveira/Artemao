@@ -36,9 +36,7 @@ const SITE = {
 //  { id: "sesc-15-11-2026", nome: "Sesc Sorocaba", data: "15/11/2026" },
 // ---------------------------------------------------------------------
 const OFICINAS = [
-  { id: "galeria-1", nome: "Galeria 1" },
-  { id: "galeria-2", nome: "Galeria 2" },
-  { id: "galeria-3", nome: "Galeria 3" },
+  { id: "pecas-do-atelie", nome: "Peças do ateliê" },
 ];
 
 // ---------------------------------------------------------------------
@@ -54,27 +52,24 @@ const OFICINAS = [
 // ---------------------------------------------------------------------
 const PECAS = [
   {
-    id: "foguete-1",
-    modelo: "foguete",
-    oficina: "galeria-1",
-    nome: "Foguete",
-    descricao: "Foguete de brinquedo escaneado em 3D.",
-    fotos: [],      // opcional. Ex.: ["fotos/foguete-1.jpg"]
+    id: "barco",
+    oficina: "pecas-do-atelie",
+    nome: "Barco",
+    descricao: "Peça de madeira escaneada em 3D.",
+    fotos: [],      // opcional. Ex.: ["fotos/barco-1.jpg"]
   },
   {
-    id: "foguete-2",
-    modelo: "foguete",
-    oficina: "galeria-2",
-    nome: "Foguete",
-    descricao: "Foguete de brinquedo escaneado em 3D.",
+    id: "bob",
+    oficina: "pecas-do-atelie",
+    nome: "Bob",
+    descricao: "Peça de madeira escaneada em 3D.",
     fotos: [],
   },
   {
-    id: "foguete-3",
-    modelo: "foguete",
-    oficina: "galeria-3",
-    nome: "Foguete",
-    descricao: "Foguete de brinquedo escaneado em 3D.",
+    id: "instrumento",
+    oficina: "pecas-do-atelie",
+    nome: "Instrumento",
+    descricao: "Peça de madeira escaneada em 3D.",
     fotos: [],
   },
 ];
